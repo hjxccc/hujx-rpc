@@ -1,0 +1,3 @@
+jdk=com.hupi.hurpc.serializer.JdkSerializer
+hessian=com.hupi.hurpc.serializer.HessianSerializer
+

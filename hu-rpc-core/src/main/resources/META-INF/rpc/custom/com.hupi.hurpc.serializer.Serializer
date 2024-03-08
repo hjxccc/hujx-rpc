@@ -1,0 +1,2 @@
+json=com.hupi.hurpc.serializer.JsonSerializer
+kryo=com.hupi.hurpc.serializer.KryoSerializer

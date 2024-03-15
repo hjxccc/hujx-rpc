@@ -25,11 +25,13 @@ public class RegistryTest {
 
     @Test
     public void  register() throws Exception{
+
         ServiceMetaInfo serviceMetaInfo=new ServiceMetaInfo();
         serviceMetaInfo.setServiceName("myService");
         serviceMetaInfo.setServiceVersion("1.0");
         serviceMetaInfo.setServiceHost("localhost");
         serviceMetaInfo.setServicePort(1234);
+        serviceMetaInfo.setServiceAddress("localhost:1234");
         registry.register(serviceMetaInfo);
 
 
@@ -38,6 +40,7 @@ public class RegistryTest {
         serviceMetaInfo.setServiceVersion("1.0");
         serviceMetaInfo.setServiceHost("localhost");
         serviceMetaInfo.setServicePort(1235);
+        serviceMetaInfo.setServiceAddress("localhost:1235");
         registry.register(serviceMetaInfo);
 
 
@@ -45,6 +48,7 @@ public class RegistryTest {
         serviceMetaInfo.setServiceName("myService");
         serviceMetaInfo.setServiceVersion("2.0");
         serviceMetaInfo.setServiceHost("localhost");
+        serviceMetaInfo.setServiceAddress("localhost:1234");
         serviceMetaInfo.setServicePort(1234);
         registry.register(serviceMetaInfo);
 

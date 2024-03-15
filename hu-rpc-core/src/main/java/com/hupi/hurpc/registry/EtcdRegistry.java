@@ -47,8 +47,9 @@ public class EtcdRegistry implements Registry {
         //get the value from CompletableFuture
         GetResponse response=getFuture.get();
 
+        System.out.println(response);
         //delete the key
-        kvClient.delete(key).get();
+       kvClient.delete(key).get();
     }
 
     @Override
@@ -66,6 +67,8 @@ public class EtcdRegistry implements Registry {
         long leaseId=leaseClient.grant(30).get().getID();
 
         //设置要存储的键值对
+
+        //rpc/%s/%s
         String registerKey= ETCD_ROOT_PATH+serviceMetaInfo.getServiceNodeKey();
         ByteSequence key = ByteSequence.from(registerKey, StandardCharsets.UTF_8);
         ByteSequence value = ByteSequence.from(JSONUtil.toJsonStr(serviceMetaInfo), StandardCharsets.UTF_8);
@@ -73,7 +76,6 @@ public class EtcdRegistry implements Registry {
         //将键值对与租约关联起来，并设置过期时间
         PutOption putOption = PutOption.builder().withLeaseId(leaseId).build();
         kvClient.put(key,value,putOption).get();
-
     }
 
     //服务注销，删除key

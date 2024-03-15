@@ -6,14 +6,14 @@ import cn.hutool.http.HttpResponse;
 import com.hupi.hurpc.RpcApplication;
 import com.hupi.hurpc.config.RpcConfig;
 import com.hupi.hurpc.constant.RpcConstant;
+import com.hupi.hurpc.model.RpcRequest;
+import com.hupi.hurpc.model.RpcResponse;
 import com.hupi.hurpc.model.ServiceMetaInfo;
 import com.hupi.hurpc.registry.Registry;
 import com.hupi.hurpc.registry.RegistryFactory;
-import com.hupi.hurpc.serializer.JdkSerializer;
 import com.hupi.hurpc.serializer.Serializer;
-import com.hupi.hurpc.model.RpcRequest;
-import com.hupi.hurpc.model.RpcResponse;
 import com.hupi.hurpc.serializer.SerializerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
@@ -25,6 +25,7 @@ import java.util.List;
  * @date 2024/3/5 18:45
  * 动态代理(JDK动态代理)
  */
+@Slf4j
 public class ServiceProxy implements InvocationHandler {
 
     /**
@@ -60,13 +61,9 @@ public class ServiceProxy implements InvocationHandler {
             if(CollUtil.isEmpty(serviceMetaInfoList)){
                 throw new RuntimeException("暂无服务地址");
             }
-
             //暂时先取第一个
             ServiceMetaInfo selectedServiceMetaInfo=serviceMetaInfoList.get(0);
-
-
             // 发送请求
-            // todo 注意，这里地址被硬编码了（需要使用注册中心和服务发现机制解决）
             try (HttpResponse httpResponse = HttpRequest.post(selectedServiceMetaInfo.getServiceAddress())
                     .body(bodyBytes)
                     .execute()) {
@@ -78,7 +75,6 @@ public class ServiceProxy implements InvocationHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 }

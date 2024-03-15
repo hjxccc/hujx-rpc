@@ -2,11 +2,9 @@ package com.hupi.hurpc.server;
 
 import com.hupi.hurpc.LocalRegistry.LocalRegistry;
 import com.hupi.hurpc.RpcApplication;
-import com.hupi.hurpc.config.RpcConfig;
-import com.hupi.hurpc.serializer.JdkSerializer;
-import com.hupi.hurpc.serializer.Serializer;
 import com.hupi.hurpc.model.RpcRequest;
 import com.hupi.hurpc.model.RpcResponse;
+import com.hupi.hurpc.serializer.Serializer;
 import com.hupi.hurpc.serializer.SerializerFactory;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
@@ -36,6 +34,7 @@ public class HttpServerHandle implements Handler<HttpServerRequest> {
             byte[] bytes = body.getBytes();
             RpcRequest rpcRequest=null;
             try {
+                //序列化为 RpcRequest.class
                 rpcRequest=serializer.deserialize(bytes, RpcRequest.class);
             }catch (Exception e){
                 e.printStackTrace();
@@ -52,7 +51,9 @@ public class HttpServerHandle implements Handler<HttpServerRequest> {
 
             try {
                 //获取要调用的服务实现类，通过反射调用
+
                 Class<?> implClass= LocalRegistry.get(rpcRequest.getServiceName());
+                //类名和参数决定一个实现类
                 Method method=implClass.getMethod(rpcRequest.getMethodName(),rpcRequest.getParameterTypes());
                 Object result=method.invoke(implClass.newInstance(),rpcRequest.getArgs());
                 //封装返回结果
@@ -75,7 +76,7 @@ public class HttpServerHandle implements Handler<HttpServerRequest> {
                 .putHeader("content-type","application/json");
 
         try {
-            //序列化
+            //序列化为rpcResponse对象
             byte[] serialized=serializer.serialize(rpcResponse);
             httpServerResponse.end(Buffer.buffer(serialized));
         }catch (Exception e){

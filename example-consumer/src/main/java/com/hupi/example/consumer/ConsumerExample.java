@@ -2,9 +2,7 @@ package com.hupi.example.consumer;
 
 import com.hupi.example.common.model.User;
 import com.hupi.example.common.service.UserService;
-import com.hupi.hurpc.config.RpcConfig;
 import com.hupi.hurpc.proxy.ServiceProxyFactory;
-import com.hupi.hurpc.utils.ConfigUtils;
 
 /**
  * @author xxx

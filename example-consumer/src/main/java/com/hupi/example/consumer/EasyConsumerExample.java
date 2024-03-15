@@ -15,8 +15,9 @@ public class EasyConsumerExample {
         /*//静态代理
         UserService userService = new UserServiceProxy();*/
 
+        ServiceProxyFactory serviceProxyFactory=new ServiceProxyFactory();
         //动态代理
-        UserService userService= ServiceProxyFactory.getProxy(UserService.class);
+        UserService userService= serviceProxyFactory.getProxy(UserService.class);
 
         //需要获取Userservice的实现类对象
         User user=new User();

@@ -41,12 +41,16 @@ public class RpcApplication {
         Registry registry= RegistryFactory.getInstance(registryConfig.getRegistry());
         registry.init(registryConfig);
         log.info("registry init,config={}",registryConfig);
+
+        //创建并注册ShutDown Hook，Jvm退出执行操作
+        Runtime.getRuntime().addShutdownHook(new Thread(registry::destroy));
     }
 
     //初始化
     public static void init(){
         RpcConfig newRpcConfig;
         try {
+            //初始化时把配置拿出来
             newRpcConfig= ConfigUtils.loadConfig(RpcConfig.class, RpcConstant.DEFAULT_CONFIG_PREFIX);
         }catch (Exception e){
             //配置加载失败，加载默认值

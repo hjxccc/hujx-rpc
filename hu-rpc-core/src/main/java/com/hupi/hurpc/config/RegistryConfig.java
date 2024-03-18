@@ -2,6 +2,9 @@ package com.hupi.hurpc.config;
 
 import lombok.Data;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author xxx
  * @date 2024/3/8 9:52
@@ -23,4 +26,7 @@ public class RegistryConfig {
 
     //超过时间
     private Long timeout=10000L;
+
+
+
 }

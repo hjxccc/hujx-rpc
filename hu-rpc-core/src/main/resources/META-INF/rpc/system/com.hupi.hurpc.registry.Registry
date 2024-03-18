@@ -1,1 +1,2 @@
 etcd=com.hupi.hurpc.registry.EtcdRegistry
+zookeeper=com.hupi.hurpc.registry.ZooKeeperRegistry

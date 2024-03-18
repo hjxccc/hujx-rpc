@@ -1,5 +1,6 @@
 package com.hupi.hurpc.registry;
 
+
 import com.hupi.hurpc.config.RegistryConfig;
 import com.hupi.hurpc.model.ServiceMetaInfo;
 import org.junit.Assert;
@@ -16,12 +17,24 @@ import java.util.List;
 public class RegistryTest {
     final Registry registry=new EtcdRegistry();
 
+
+
+
     @Before
     public void init(){
         RegistryConfig registryConfig=new RegistryConfig();
         registryConfig.setAddress("http://localhost:2379");
         registry.init(registryConfig);
     }
+    @Test
+    public void heartBeat() throws Exception{
+        //init中已经执行心跳检测了
+        register();
+        //阻塞一分钟
+        Thread.sleep(60*1000L);
+    }
+
+
 
     @Test
     public void  register() throws Exception{
